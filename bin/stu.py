@@ -188,10 +188,11 @@ if args.command == "workspace":
 		workSpace.workingDir = os.path.join(devDir, args.parameter1)
 		print("Set working dir to {}".format(workSpace.workingDir))
 		os.chdir(workSpace.workingDir)
-		if platform.system()=="Windows":
-			os.system("cmd")
-		if platform.system()=="Linux":
-			os.system("/bin/bash")
+		workSpace.save()
+		#if platform.system()=="Windows":
+			#os.system("cmd")
+		#if platform.system()=="Linux":
+			#os.system("/bin/bash")
 	else:
 		print("ERROR - Unknown workspace {} - check capitalization".format(args.parameter1))
 
