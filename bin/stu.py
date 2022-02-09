@@ -132,6 +132,7 @@ def doPrintHelp():
 	print("   push							current branch")
 	print("   add -A						git add -A")
 	print("   branch -v						git branch -v")
+	print("   remote -v						git remote -v")
 	print("   workspace <dirName>			set workspace. E.g stu workspace Vortex")
 
 
@@ -177,6 +178,12 @@ if args.command == "add":
 if args.command == "branch":
 	if (args.v):
 		doGit("git branch -v")
+	else:
+		print("Invalid option");
+
+if args.command == "remote":
+	if (args.v):
+		doGit("git remote -v")
 	else:
 		print("Invalid option");
 
