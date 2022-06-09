@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Python script to help with recursive git actions
 import getopt, sys
 import argparse
@@ -61,6 +62,7 @@ class WorkSpace:
 	projectDirs = None
 	matrixDir = None
 	vortexDir = None
+	backChannelDir = None
 	workingDir = None
 	def __init__(self, _projectDirs, _matrixDir, _vortexDir, _workingDir):
 		self.projectDirs = _projectDirs
@@ -71,8 +73,9 @@ class WorkSpace:
 		global devDir
 		print("Scanning {}".format(devDir))
 		self.projectDirs=findSubDirs(devDir)
-		self.matrixDir=min(findDir("Matrix", devDir), key=len)
-		self.vortexDir=min(findDir("Vortex", devDir), key=len)
+		self.matrixDir=min(findDir("Matrix", devDir), key=len, default="EMPTY")
+		self.vortexDir=min(findDir("Vortex", devDir), key=len, default="EMPTY")
+		self.backChannelDir=min(findDir("backChannel", devDir), key=len, default="EMPTY")
 		self.workingDir = self.vortexDir
 	def printAll(self):
 		print("Project dirs {}".format(self.projectDirs))
