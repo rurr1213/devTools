@@ -12,12 +12,13 @@ devDir = os.environ.get('DEVDIR')
 
 parser = argparse.ArgumentParser(description=helpText)
 
+parser.add_argument(dest='command', nargs="?", type=str, help="command to execute")
+
 parser.add_argument("-V", "--version", help="show program version", action="store_true")
 parser.add_argument("-b", help="short status", action="store_true")
 parser.add_argument("-A", help="add all status", action="store_true")
-parser.add_argument("-v", help="add all status", action="store_true")
+parser.add_argument("-v", help="verbose", action="store_true")
 
-parser.add_argument(dest='command', nargs="?", type=str, help="command to execute")
 parser.add_argument(dest='parameter1', nargs="?", type=str, help="branch to checkout", default="working")
 
 # Read arguments from the command line
@@ -133,14 +134,22 @@ def doPrintHelp():
 	print("   add -A						git add -A")
 	print("   branch -v						git branch -v")
 	print("   remote -v						git remote -v")
+	print("   commit <message>					git commit <message>")
 	print("   workspace <dirName>			set workspace. E.g stu workspace Vortex")
 
+def doGitSubmodules(commandLine):
+	print('git submodule foreach --recursive "{} || :"'.format(commandLine))
+	os.system('git submodule foreach --recursive "{} || :"'.format(commandLine))
 
-def doGit(commandLine):
+def doGitMainDir(commandLine):
 	print("Project {}".format(workSpace.workingDir))
+	print("{}".format(commandLine))
 	os.chdir(workSpace.workingDir)
 	os.system(commandLine)
-	os.system('git submodule foreach --recursive "{} || :"'.format(commandLine))
+
+def doGit(commandLine):
+	doGitMainDir(commandLine)
+	doGitSubmodules(commandLine);
 
 if len(sys.argv)==1:
 	doPrintHelp()
@@ -188,7 +197,11 @@ if args.command == "remote":
 		print("Invalid option");
 
 if args.command == "commit":
-	doGit("git commit -m '{}'".format(args.parameter1))
+	if (args.parameter1):
+		doGitMainDir("git commit -m \"{}\"".format(args.parameter1))
+		doGitSubmodules("git commit -m '{}'".format(args.parameter1))
+	else:
+		print("Invalid option");
 
 if args.command == "workspace":
 	if args.parameter1 in workSpace.projectDirs:
