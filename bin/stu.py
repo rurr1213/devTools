@@ -177,6 +177,8 @@ if args.command == "pull":
 
 if args.command == "pullVortex":
 	doGit("git pull")
+	os.chdir(workSpace.workingDir)
+	os.system("cd .\\lib\\ftlTools\\network\\CommonCppDartCode & Generate.bat")
 
 if args.command == "fetch":
 	doGit("git fetch {}".format(args.parameter1))
