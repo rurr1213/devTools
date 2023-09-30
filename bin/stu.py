@@ -129,7 +129,7 @@ def doPrintHelp():
 	print("    Eg. 'stu workspace Matrix'")
 	print("")
 	print("\ncommands:			recursive actions on this and all submodules")
-	print("   status")
+	print("   status <-b>                                           <-b> for brief")
 	print("   checkout  <branchName>")
 	print("   pull							current branch")
 	print("   pullVortex					pull current branch and run generate")
@@ -141,7 +141,8 @@ def doPrintHelp():
 	print("   workspace <dirName>			set workspace. E.g stu workspace Vortex")
 
 def doGitSubmodules(commandLine):
-	print('git submodule foreach --recursive "{} || :"'.format(commandLine))
+#	print('git submodule foreach --recursive "{} || :"'.format(commandLine))
+	print('----------- for each submodule -----------')
 	os.system('git submodule foreach --recursive "{} || :"'.format(commandLine))
 
 def doGitMainDir(commandLine):
